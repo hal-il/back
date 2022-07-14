@@ -1,0 +1,6 @@
+version: '3.0'
+services:
+	halil:
+		image: rice1223/halil
+		ports:
+		  - "9091:8080"
