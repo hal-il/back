@@ -14,10 +14,10 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class LoginController {
     @Value("${google.redirect_uri}")
-    private String GOOGLE_REDIRECT_URI;
+    private String GOOGLE_OAUTH_URI;
 
     @GetMapping("/google")
     public void redirectGoogleRedirectUri(HttpServletResponse response) throws IOException {
-        response.sendRedirect(GOOGLE_REDIRECT_URI);
+        response.sendRedirect(GOOGLE_OAUTH_URI);
     }
 }
