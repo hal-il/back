@@ -1,6 +1,7 @@
 package com.halil.halil.domain.user.service;
 
 import com.halil.halil.domain.user.dto.GoogleTokenResponseDto;
+import com.halil.halil.domain.user.dto.GoogleUserInfoResponseDto;
 import com.halil.halil.domain.user.dto.UserLoginResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserLoginResponseDto findUserByCode(String code) {
         GoogleTokenResponseDto googleTokenResponseDto = getAccessTokenFromGoogleApi(code);
+        getGoogleEmailFromGoogleApi(googleTokenResponseDto.getAccessToken());
         return null;
     }
 
@@ -53,5 +55,21 @@ public class UserServiceImpl implements UserService{
         HttpEntity<MultiValueMap<String, String>> restRequest = new HttpEntity<>(params, headers);
 
         return new RestTemplate().postForEntity(uri, restRequest, GoogleTokenResponseDto.class).getBody();
+    }
+
+    private String getGoogleEmailFromGoogleApi(String accessToken){
+        URI uri = UriComponentsBuilder.fromUriString("https://www.googleapis.com")
+                .path("/oauth2/v2/userinfo")
+                .encode()
+                .build()
+                .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+
+        HttpEntity<HttpHeaders> request = new HttpEntity<>(headers);
+        RestTemplate restTemplate = new RestTemplate();
+
+        return restTemplate.exchange(uri, HttpMethod.GET, request, GoogleUserInfoResponseDto.class).getBody().getEmail();
     }
 }
