@@ -13,7 +13,7 @@ import java.io.IOException;
 @RequestMapping("/login")
 @RequiredArgsConstructor
 public class LoginController {
-    @Value("${google.redirect_uri}")
+    @Value("${google.oauth_uri}")
     private String GOOGLE_OAUTH_URI;
 
     @GetMapping("/google")
