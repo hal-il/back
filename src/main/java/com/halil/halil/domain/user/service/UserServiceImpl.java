@@ -3,6 +3,9 @@ package com.halil.halil.domain.user.service;
 import com.halil.halil.domain.user.dto.GoogleTokenResponseDto;
 import com.halil.halil.domain.user.dto.GoogleUserInfoResponseDto;
 import com.halil.halil.domain.user.dto.UserLoginResponseDto;
+import com.halil.halil.domain.user.entity.User;
+import com.halil.halil.domain.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
     @Value("${google.client_id}")
@@ -28,10 +32,13 @@ public class UserServiceImpl implements UserService{
     @Value("authorization_code")
     private String GOOGLE_GRANT_TYPE;
 
+    private final UserRepository userRepository;
+
     @Override
     public UserLoginResponseDto findUserByCode(String code) {
         GoogleTokenResponseDto googleTokenResponseDto = getAccessTokenFromGoogleApi(code);
-        getGoogleEmailFromGoogleApi(googleTokenResponseDto.getAccessToken());
+        String email = getGoogleEmailFromGoogleApi(googleTokenResponseDto.getAccessToken());
+        User user = userRepository.findUserByEmail(email);
         return null;
     }
 
