@@ -4,7 +4,9 @@ import com.halil.halil.domain.user.dto.GoogleTokenResponseDto;
 import com.halil.halil.domain.user.dto.GoogleUserInfoResponseDto;
 import com.halil.halil.domain.user.dto.UserLoginResponseDto;
 import com.halil.halil.domain.user.entity.User;
+import com.halil.halil.domain.user.exception.NotExistUserException;
 import com.halil.halil.domain.user.repository.UserRepository;
+import com.halil.halil.global.util.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,12 +37,18 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
 
+    private final JwtProvider jwtProvider;
+
     @Override
     public UserLoginResponseDto findUserByCode(String code) {
         GoogleTokenResponseDto googleTokenResponseDto = getAccessTokenFromGoogleApi(code);
         String email = getGoogleEmailFromGoogleApi(googleTokenResponseDto.getAccessToken());
-        User user = userRepository.findUserByEmail(email);
-        return null;
+        Optional<User> user = userRepository.findUserByEmail(email);
+
+        if(!user.isPresent()){
+            throw new NotExistUserException("사용자가 존재하지 않음");
+        }
+        return new UserLoginResponseDto(jwtProvider.getToken(user.get().getNickName(), user.get().getEmail()));
     }
 
     private GoogleTokenResponseDto getAccessTokenFromGoogleApi(String code){
