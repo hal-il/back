@@ -1,10 +1,9 @@
-package com.halil.halil.domain.user;
+package com.halil.halil.domain.user.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 @Entity
