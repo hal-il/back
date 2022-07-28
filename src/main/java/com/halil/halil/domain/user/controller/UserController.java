@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestController
@@ -21,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/create")
-    ResponseEntity<CommonResponse> CreateUser(@RequestBody UserCreateRequestDto userCreateRequestDto){
+    ResponseEntity<CommonResponse> CreateUser(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto){
         try {
             return new ResponseEntity<>(CommonResponse.createSuccess(userService.CreateUser(userCreateRequestDto)), HttpStatus.OK);
         }catch (DataIntegrityViolationException e){

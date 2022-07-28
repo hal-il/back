@@ -25,7 +25,7 @@ public class UserCreateServiceimpl implements UserService{
         if(!findUsers.isEmpty()){
             throw new ExistUserNameException("이미 존재하는 사용자");
         }*/
-        User user = new User().builder().email(userCreateRequestDto.getEmail()).nickName(userCreateRequestDto.getEmail()).build();
+        User user = new User().builder().email(userCreateRequestDto.getEmail()).nickName(userCreateRequestDto.getNickName()).build();
         userRepository.save(user);
         Optional<User> searchUser=userRepository.findById(user.getId());
         return searchUser;
