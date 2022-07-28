@@ -4,7 +4,7 @@ import com.halil.halil.domain.user.dto.UserCreateRequestDto;
 import com.halil.halil.domain.user.entity.User;
 import com.halil.halil.domain.user.exception.ExistUserException;
 import com.halil.halil.domain.user.repository.UserRepository;
-import com.halil.halil.domain.user.service.UserCreateServiceimpl;
+import com.halil.halil.domain.user.service.UserCreateServiceImpl;
 import com.halil.halil.domain.user.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @SpringBootTest
 class UserServiceTest {
     @Autowired
-    private UserCreateServiceimpl userCreateServiceimpl;
+    private UserCreateServiceImpl userCreateServiceImpl;
     @Autowired
     private UserRepository userRepository;
 
@@ -36,7 +36,7 @@ class UserServiceTest {
     @DisplayName("Already Exist User Exception Test")
     void AlreadyExistUserTest(){
         UserCreateRequestDto dupUserCreateRequestDto = new UserCreateRequestDto("email1","nickname1");
-        userCreateServiceimpl.CreateUser(userCreateRequestDto1);
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> userCreateServiceimpl.CreateUser(dupUserCreateRequestDto));
+        userCreateServiceImpl.CreateUser(userCreateRequestDto1);
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> userCreateServiceImpl.CreateUser(dupUserCreateRequestDto));
     }
 }
