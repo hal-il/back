@@ -1,9 +1,7 @@
 package com.halil.halil.domain.user.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
@@ -26,6 +24,10 @@ public class User {
     public User( String nickname, String email){
         this.nickname = nickname;
         this.email = email;
+    }
+
+    public void update(String nickname){
+        this.nickname = nickname;
     }
 
 }
