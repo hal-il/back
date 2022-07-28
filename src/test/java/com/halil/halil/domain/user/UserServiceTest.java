@@ -2,16 +2,21 @@ package com.halil.halil.domain.user;
 
 import com.halil.halil.domain.user.dto.UserCreateRequestDto;
 import com.halil.halil.domain.user.entity.User;
+import com.halil.halil.domain.user.exception.ExistUserException;
 import com.halil.halil.domain.user.repository.UserRepository;
 import com.halil.halil.domain.user.service.UserCreateServiceimpl;
 import com.halil.halil.domain.user.service.UserService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.Optional;
 
 @SpringBootTest
@@ -28,11 +33,10 @@ class UserServiceTest {
 
     }
     @Test
-    @DisplayName("create function test")
-    void CreateWellTest(){
-        final User user = User.builder().email(userCreateRequestDto1.getEmail())
-                .nickName(userCreateRequestDto1.getNickName()).build();
-        Optional<User> userid=userCreateServiceimpl.CreateUser(userCreateRequestDto1);
-        System.out.println(userid);
+    @DisplayName("Already Exist User Exception Test")
+    void AlreadyExistUserTest(){
+        UserCreateRequestDto dupUserCreateRequestDto = new UserCreateRequestDto("email1","nickname1");
+        userCreateServiceimpl.CreateUser(userCreateRequestDto1);
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> userCreateServiceimpl.CreateUser(dupUserCreateRequestDto));
     }
 }
