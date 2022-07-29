@@ -1,5 +1,6 @@
 package com.halil.halil.domain.user.service;
 
+import com.halil.halil.domain.user.dto.UserResponseDto;
 import com.halil.halil.domain.user.dto.UserUpdateRequestDto;
 import com.halil.halil.domain.user.entity.User;
 import com.halil.halil.domain.user.repository.UserRepository;
@@ -15,23 +16,17 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     @Override
-    public User updateUserInfo(UserUpdateRequestDto userUpdateRequestDto) {
+    public UserResponseDto updateUserInfo(UserUpdateRequestDto userUpdateRequestDto) {
         String email = userUpdateRequestDto.getEmail();
         String nickname = userUpdateRequestDto.getNickname();
-        System.out.println("email : " + email);
-        System.out.println("nickname : " + nickname);
+
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException());
         user.update(nickname);
-        System.out.println("user : "+user);
+
         userRepository.save(user);
-        return user;
-    }
 
-    @Override
-    public User findByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException());
-        return user;
+        UserResponseDto userResponseDto = new UserResponseDto(user);
+        return userResponseDto;
     }
-
 
 }
