@@ -1,4 +1,4 @@
-package com.halil.halil.domain.user.dto;
+package com.halil.halil.domain.login.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
