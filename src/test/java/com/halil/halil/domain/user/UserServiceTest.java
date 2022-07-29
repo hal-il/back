@@ -39,4 +39,11 @@ class UserServiceTest {
         userCreateServiceImpl.CreateUser(userCreateRequestDto1);
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> userCreateServiceImpl.CreateUser(dupUserCreateRequestDto));
     }
+    @Test
+    @DisplayName("No nickName in User Test")
+    void NotExistUserNameTest(){
+        UserCreateRequestDto userCreateRequestDto = new UserCreateRequestDto("nickname",null);
+        userCreateServiceImpl.CreateUser(userCreateRequestDto1);
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> userCreateServiceImpl.CreateUser(userCreateRequestDto));
+    }
 }

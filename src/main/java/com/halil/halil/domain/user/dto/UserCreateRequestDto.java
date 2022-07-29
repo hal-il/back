@@ -2,14 +2,17 @@ package com.halil.halil.domain.user.dto;
 
 import lombok.*;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserCreateRequestDto {
+    @NotNull
+    @Email
     String email;
+    @NotNull
     String nickName;
-    @Builder
-    public UserCreateRequestDto(String email, String nickName){
-        this.email=email;
-        this.nickName=nickName;
-    }
 }

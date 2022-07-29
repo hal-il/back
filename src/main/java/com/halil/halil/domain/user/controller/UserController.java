@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,10 +24,14 @@ public class UserController {
 
     @PostMapping("/create")
     ResponseEntity<CommonResponse> CreateUser(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto){
-        try {
-            return new ResponseEntity<>(CommonResponse.createSuccess(userService.CreateUser(userCreateRequestDto)), HttpStatus.OK);
-        }catch (DataIntegrityViolationException e){
-            throw new ExistUserException("이미 존재하는 계정입니다");
-        }
+        return new ResponseEntity<>(CommonResponse.createSuccess(userService.CreateUser(userCreateRequestDto)), HttpStatus.OK);
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String invalidUserException(MethodArgumentNotValidException e){
+        return "take a form";
+    }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public String nullTypeUserException(DataIntegrityViolationException e){
+        return "Already Exist User";
     }
 }
