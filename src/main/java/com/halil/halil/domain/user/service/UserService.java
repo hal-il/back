@@ -7,6 +7,6 @@ import com.halil.halil.domain.user.entity.User;
 import java.util.Optional;
 
 public interface UserService {
-    UserResponseDto updateUserInfo(UserUpdateRequestDto userUpdateRequestDto);
-
+    UserResponseDto updateUserInfo(String email, UserUpdateRequestDto userUpdateRequestDto);
+    void updateRefreshToken(String email, String refreshToken);
 }
