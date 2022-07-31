@@ -20,6 +20,9 @@ public class User {
     @Column(name = "EMAIL", unique = true, nullable = false)
     private String email;
 
+    @Column(name = "REFRESH_TOKEN")
+    private String refreshToken;
+
     @Builder
     public User( String nickname, String email){
         this.nickname = nickname;
@@ -30,4 +33,7 @@ public class User {
         this.nickname = nickname;
     }
 
+    public void updateRefreshToken(String refreshToken){
+        this.refreshToken = refreshToken;
+    }
 }
