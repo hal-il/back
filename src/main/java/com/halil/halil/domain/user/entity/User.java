@@ -1,5 +1,6 @@
 package com.halil.halil.domain.user.entity;
 
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -7,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "USERS")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

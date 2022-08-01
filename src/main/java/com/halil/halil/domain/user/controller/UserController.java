@@ -1,17 +1,19 @@
 package com.halil.halil.domain.user.controller;
 
+import com.halil.halil.domain.user.dto.UserCreateRequestDto;
+import com.halil.halil.domain.user.dto.UserCreateResponseDto;
 import com.halil.halil.domain.user.dto.UserResponseDto;
 import com.halil.halil.domain.user.dto.UserUpdateRequestDto;
 import com.halil.halil.domain.user.service.UserService;
-import com.halil.halil.global.common.CommonResponse;
+import com.halil.halil.global.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+
 import javax.validation.Valid;
 
 @RestController
@@ -26,5 +28,19 @@ public class UserController {
         String email = (String)request.getAttribute("email");
         UserResponseDto userResponseDto = userService.updateUserInfo(email,userUpdateRequestDto);
         return ResponseEntity.ok(CommonResponse.createSuccess(userResponseDto));
+    }
+
+    @PostMapping("/create")
+    ResponseEntity<CommonResponse> CreateUser(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto){
+        UserCreateResponseDto userCreateResponseDto = userService.CreateUser(userCreateRequestDto);
+        return new ResponseEntity<>(CommonResponse.createSuccess(userCreateResponseDto), HttpStatus.OK);
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String invalidUserException(MethodArgumentNotValidException e){
+        return "take a form";
+    }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public String nullTypeUserException(DataIntegrityViolationException e){
+        return "Already Exist User";
     }
 }
