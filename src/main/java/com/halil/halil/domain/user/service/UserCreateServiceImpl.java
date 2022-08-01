@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 @Primary
@@ -21,6 +20,8 @@ public class UserCreateServiceImpl implements UserService{
     public UserCreateResponseDto CreateUser(UserCreateRequestDto userCreateRequestDto){
         User user = new User().builder().email(userCreateRequestDto.getEmail()).nickName(userCreateRequestDto.getNickName()).build();
         userRepository.save(user);
-        return new UserCreateResponseDto(jwtProvider.getToken(user.getNickName(), user.getEmail()));
+        String accessToken = jwtProvider.createAccessToken(userCreateRequestDto.getNickName(), userCreateRequestDto.getEmail());
+        String refreshToken = jwtProvider.createRefreshToken(userCreateRequestDto.getNickName(), userCreateRequestDto.getEmail());
+        return new UserCreateResponseDto(accessToken,refreshToken);
     }
 }

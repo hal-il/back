@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class UserCreateResponseDto {
-    private String jwt;
+    private String accessToken;
+    private String refreshToken;
 }

@@ -14,24 +14,25 @@ public class JwtProvider {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
-    private Long expiredTime = 1000 * 60L;
-
-    public String getToken(String nickName, String email){
-        Date now = new Date();
-        return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setIssuer("halil")
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + expiredTime))
-                .claim("nickName", nickName)
-                .claim("email", email)
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
-                .compact();
+    public String createAccessToken(String nickName, String email) {
+        Long tokenInvalidTime = 1000L * 60 * 3; // 3m
+        return this.createToken(email, nickName, tokenInvalidTime);
     }
 
-    public Claims parseToken(String jwt) throws ExpiredJwtException, MalformedJwtException, SignatureException {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY.getBytes())
-                .parseClaimsJws(jwt)
-                .getBody();
+    public String createRefreshToken(String nickName, String email) {
+        Long tokenInvalidTime = 1000L * 60 * 60 * 24; // 1d
+        String refreshToken = this.createToken(nickName, email, tokenInvalidTime);
+        return refreshToken;
+    }
+
+    private String createToken(String nickName, String email, Long tokenInvalidTime){
+        Date date = new Date();
+        return Jwts.builder().setIssuer("halil")
+                .claim("nickName",nickName)
+                .claim("email",email)
+                .setIssuedAt(date)
+                .setExpiration(new Date(date.getTime() + tokenInvalidTime))
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
     }
 }
