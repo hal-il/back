@@ -1,4 +1,4 @@
-package com.halil.halil.global.common;
+package com.halil.halil.global.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -47,4 +47,5 @@ public class CommonResponse<T> {
     public static CommonResponse createError(String message){
         return new CommonResponse(ERROR, null, message);
     }
+
 }

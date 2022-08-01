@@ -92,3 +92,9 @@ gradle-app.setting
 
 # .properties
 *.properties
+
+# .yml
+*.yml
+
+# .gz
+*.gz

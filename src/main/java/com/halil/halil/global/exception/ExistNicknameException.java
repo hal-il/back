@@ -1,0 +1,7 @@
+package com.halil.halil.global.exception;
+
+public class ExistNicknameException extends RuntimeException {
+    public ExistNicknameException(String message){
+        super(message);
+    }
+}
