@@ -13,4 +13,8 @@ public class UserCreateRequestDto {
     private String email;
     @NotBlank(message = "닉네임은 비어있을 수 없습니다.")
     private String nickName;
+
+    public User toEntity(){
+        return User.builder().email(this.email).nickname(this.nickName).build();
+    }
 }
