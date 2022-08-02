@@ -17,7 +17,7 @@ class JwtProviderTest {
     void before(){
         jwtProvider = new JwtProvider();
         jwtProvider.setSECRET_KEY("rightKey");
-        jwtProvider.setExpiredTime(1000 * 60L);
+        jwtProvider.setAccessTokenExpiredTime(1000 * 60L);
     }
 
     @Test
@@ -26,7 +26,7 @@ class JwtProviderTest {
         String email = "email";
         String nickName = "nickName";
 
-        String jwt = jwtProvider.getToken(nickName, email);
+        String jwt = jwtProvider.getAccessToken(nickName, email);
 
         Claims claims = jwtProvider.parseToken(jwt);
 
@@ -38,11 +38,11 @@ class JwtProviderTest {
     @Test
     @DisplayName("시간이 지난 jwt 사용시 ExpiredJwtException error 발생")
     void generateExpiredException(){
-        jwtProvider.setExpiredTime(0L);
+        jwtProvider.setAccessTokenExpiredTime(0L);
         String email = "email";
         String nickName = "nickName";
 
-        String jwt = jwtProvider.getToken(nickName, email);
+        String jwt = jwtProvider.getAccessToken(nickName, email);
 
         assertThrowsExactly(ExpiredJwtException.class, () -> {
             jwtProvider.parseToken(jwt);
@@ -68,7 +68,7 @@ class JwtProviderTest {
         String nickName = "nickName";
         String wrongKey = "wrongKey";
         jwtProvider.setSECRET_KEY(wrongKey);
-        String wrongJwt = jwtProvider.getToken(nickName, email);
+        String wrongJwt = jwtProvider.getAccessToken(nickName, email);
 
         jwtProvider.setSECRET_KEY("rightKey");
         assertThrowsExactly(SignatureException.class, () -> {
