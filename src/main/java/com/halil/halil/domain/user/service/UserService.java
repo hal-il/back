@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface UserService {
     UserResponseDto updateUserInfo(String email, UserUpdateRequestDto userUpdateRequestDto);
     void updateRefreshToken(String email, String refreshToken);
-    UserCreateResponseDto CreateUser(UserCreateRequestDto userCreateRequestDto);
+    UserCreateResponseDto createUser(UserCreateRequestDto userCreateRequestDto);
 }

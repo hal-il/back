@@ -1,4 +1,4 @@
-package com.halil.halil.global.util;
+package com.halil.halil.global.util.jwt;
 
 import com.halil.halil.domain.user.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;

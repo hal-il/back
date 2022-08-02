@@ -9,10 +9,10 @@ import lombok.Getter;
 public class UserResponseDto {
 
     private String email;
-    private String nickname;
+    private String nickName;
 
     public UserResponseDto(User user){
         this.email = user.getEmail();
-        this.nickname = user.getNickname();
+        this.nickName = user.getNickName();
     }
 }

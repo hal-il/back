@@ -13,15 +13,15 @@ public class JwtProvider {
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;
-
+    private Long accessTokenExpired = 1000L * 60;
+    private Long refreshTokenExpired = 1000L * 60 * 60 * 24;
     public String createAccessToken(String nickName, String email) {
         Long tokenInvalidTime = 1000L * 60 * 3; // 3m
         return this.createToken(email, nickName, tokenInvalidTime);
     }
 
     public String createRefreshToken(String nickName, String email) {
-        Long tokenInvalidTime = 1000L * 60 * 60 * 24; // 1d
-        String refreshToken = this.createToken(nickName, email, tokenInvalidTime);
+        String refreshToken = this.createToken(nickName, email, refreshTokenExpired);
         return refreshToken;
     }
 
@@ -31,7 +31,7 @@ public class JwtProvider {
                 .claim("nickName",nickName)
                 .claim("email",email)
                 .setIssuedAt(date)
-                .setExpiration(new Date(date.getTime() + tokenInvalidTime))
+                .setExpiration(new Date(date.getTime() + accessTokenExpired))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }

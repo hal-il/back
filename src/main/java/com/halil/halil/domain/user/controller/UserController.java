@@ -7,7 +7,6 @@ import com.halil.halil.domain.user.dto.UserUpdateRequestDto;
 import com.halil.halil.domain.user.service.UserService;
 import com.halil.halil.global.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,16 +30,12 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<CommonResponse> CreateUser(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto){
-        UserCreateResponseDto userCreateResponseDto = userService.CreateUser(userCreateRequestDto);
+    ResponseEntity<CommonResponse> createUser(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto){
+        UserCreateResponseDto userCreateResponseDto = userService.createUser(userCreateRequestDto);
         return new ResponseEntity<>(CommonResponse.createSuccess(userCreateResponseDto), HttpStatus.OK);
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String invalidUserException(MethodArgumentNotValidException e){
-        return "take a form";
-    }
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public String nullTypeUserException(DataIntegrityViolationException e){
-        return "Already Exist User";
+    public ResponseEntity<CommonResponse> invalidDtoException(MethodArgumentNotValidException e){
+        return new ResponseEntity<>(CommonResponse.createError("take a form plz"),HttpStatus.BAD_REQUEST);
     }
 }

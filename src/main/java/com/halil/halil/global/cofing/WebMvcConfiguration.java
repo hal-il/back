@@ -1,6 +1,6 @@
 package com.halil.halil.global.cofing;
 
-import com.halil.halil.global.util.JwtInterceptor;
+import com.halil.halil.global.util.jwt.JwtInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

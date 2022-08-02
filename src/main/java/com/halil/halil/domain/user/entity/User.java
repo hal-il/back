@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Table(name = "USERS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
     @Id
@@ -15,7 +16,7 @@ public class User {
     private Long user_id;
 
     @Column(name = "NICKNAME", unique = true, nullable = false)
-    private String nickname;
+    private String nickName;
 
     @Column(name = "EMAIL", unique = true, nullable = false)
     private String email;
@@ -25,12 +26,12 @@ public class User {
 
     @Builder
     public User( String nickname, String email){
-        this.nickname = nickname;
+        this.nickName = nickname;
         this.email = email;
     }
 
-    public void update(String nickname){
-        this.nickname = nickname;
+    public void update(String nickName){
+        this.nickName = nickName;
     }
 
     public void updateRefreshToken(String refreshToken){
