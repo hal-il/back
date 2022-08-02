@@ -6,5 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class UserLoginResponseDto {
-    private String jwt;
+    private String accessToken;
+    private String refreshToken;
 }
