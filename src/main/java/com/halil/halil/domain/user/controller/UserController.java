@@ -46,12 +46,4 @@ public class UserController {
         UserCreateResponseDto userCreateResponseDto = userService.CreateUser(userCreateRequestDto);
         return new ResponseEntity<>(CommonResponse.createSuccess(userCreateResponseDto), HttpStatus.OK);
     }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String invalidUserException(MethodArgumentNotValidException e){
-        return "take a form";
-    }
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public String nullTypeUserException(DataIntegrityViolationException e){
-        return "Already Exist User";
-    }
 }
