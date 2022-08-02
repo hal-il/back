@@ -14,25 +14,36 @@ public class JwtProvider {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
-    public String createAccessToken(String nickName, String email) {
-        Long tokenInvalidTime = 1000L * 60 * 3; // 3m
-        return this.createToken(email, nickName, tokenInvalidTime);
-    }
+    private Long accessTokenExpiredTime = 1000 * 60L;
 
-    public String createRefreshToken(String nickName, String email) {
-        Long tokenInvalidTime = 1000L * 60 * 60 * 24; // 1d
-        String refreshToken = this.createToken(nickName, email, tokenInvalidTime);
-        return refreshToken;
-    }
+    private Long refreshTokenExpiredTime = 1000 * 60L * 24 * 14;
 
-    private String createToken(String nickName, String email, Long tokenInvalidTime){
-        Date date = new Date();
-        return Jwts.builder().setIssuer("halil")
-                .claim("nickName",nickName)
-                .claim("email",email)
-                .setIssuedAt(date)
-                .setExpiration(new Date(date.getTime() + tokenInvalidTime))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+    public String getAccessToken(String nickName, String email){
+        Date now = new Date();
+        return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setIssuer("halil")
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + accessTokenExpiredTime))
+                .claim("nickName", nickName)
+                .claim("email", email)
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
                 .compact();
+    }
+
+    public String getRefreshToken(){
+        Date now = new Date();
+        return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setIssuer("halil")
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + refreshTokenExpiredTime))
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
+                .compact();
+    }
+
+    public Claims parseToken(String jwt) throws ExpiredJwtException, MalformedJwtException, SignatureException {
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY.getBytes())
+                .parseClaimsJws(jwt)
+                .getBody();
     }
 }
