@@ -42,8 +42,8 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<CommonResponse> CreateUser(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto){
-        UserCreateResponseDto userCreateResponseDto = userService.CreateUser(userCreateRequestDto);
+    ResponseEntity<CommonResponse> createUser(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto){
+        UserCreateResponseDto userCreateResponseDto = userService.createUser(userCreateRequestDto);
         return new ResponseEntity<>(CommonResponse.createSuccess(userCreateResponseDto), HttpStatus.OK);
     }
 }
