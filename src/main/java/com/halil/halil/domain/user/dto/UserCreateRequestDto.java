@@ -1,18 +1,16 @@
 package com.halil.halil.domain.user.dto;
 
+import com.halil.halil.domain.user.entity.User;
 import lombok.*;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 public class UserCreateRequestDto {
-    @NotNull
+    @NotBlank(message = "이메일은 비어있을 수 없습니다.")
     @Email
-    String email;
-    @NotNull
-    String nickName;
+    private String email;
+    @NotBlank(message = "닉네임은 비어있을 수 없습니다.")
+    private String nickName;
 }
