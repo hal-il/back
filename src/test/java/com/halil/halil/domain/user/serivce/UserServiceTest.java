@@ -1,4 +1,4 @@
-package com.halil.halil.domain.user;
+package com.halil.halil.domain.user.serivce;
 
 import com.halil.halil.domain.user.dto.UserCreateRequestDto;
 import com.halil.halil.domain.user.entity.User;
