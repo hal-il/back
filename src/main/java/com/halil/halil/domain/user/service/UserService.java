@@ -13,5 +13,5 @@ public interface UserService {
     UserLoginResponseDto findUserByCode(String code);
     UserResponseDto updateUserInfo(String email, UserUpdateRequestDto userUpdateRequestDto);
     void updateRefreshToken(String email, String refreshToken);
-    UserCreateResponseDto CreateUser(UserCreateRequestDto userCreateRequestDto);
+    UserCreateResponseDto createUser(UserCreateRequestDto userCreateRequestDto);
 }

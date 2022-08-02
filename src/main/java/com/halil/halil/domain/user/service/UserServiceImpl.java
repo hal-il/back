@@ -1,22 +1,15 @@
 package com.halil.halil.domain.user.service;
 
+import com.halil.halil.domain.user.dto.*;
+import com.halil.halil.domain.user.exception.ExistNicknameException;
+import com.halil.halil.domain.user.exception.NotExistUserException;
 import com.halil.halil.global.util.jwt.JwtProvider;
 import com.halil.halil.domain.login.service.LoginService;
-import com.halil.halil.domain.user.dto.UserResponseDto;
-import com.halil.halil.domain.user.dto.UserUpdateRequestDto;
-import com.halil.halil.domain.user.dto.UserLoginResponseDto;
 import com.halil.halil.domain.user.entity.User;
 import com.halil.halil.domain.user.repository.UserRepository;
-import com.halil.halil.global.exception.ExistNicknameException;
-import com.halil.halil.global.exception.NoExistUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
-
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,27 +26,35 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findUserByEmail(email).orElseThrow(() -> {
             throw new NotExistUserException();
         });
-
-        return new UserLoginResponseDto(jwtProvider.getToken(user.getNickName(), user.getEmail()));
+        return new UserLoginResponseDto(jwtProvider.getAccessToken(user.getNickname(), user.getEmail()));
     }
 
     @Override
     public UserResponseDto updateUserInfo(String email, UserUpdateRequestDto userUpdateRequestDto) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoExistUserException("존재하는 회원정보가 없습니다."));
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new NotExistUserException());
         try{
             user.update(userUpdateRequestDto.getNickname());
             userRepository.save(user);
             UserResponseDto userResponseDto = new UserResponseDto(user);
             return userResponseDto;
         }catch (DataIntegrityViolationException e){
-            throw new ExistNicknameException("존재하는 닉네임입니다.");
+            throw new ExistNicknameException();
         }
     }
 
     @Override
     public void updateRefreshToken(String email, String refreshToken) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoExistUserException("존재하는 회원정보가 없습니다."));
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new NotExistUserException());
         user.updateRefreshToken(refreshToken);
         userRepository.save(user);
+    }
+
+    @Override
+    public UserCreateResponseDto createUser(UserCreateRequestDto userCreateRequestDto) {
+        User user = User.builder().email(userCreateRequestDto.getEmail()).nickname(userCreateRequestDto.getNickName()).build();
+        userRepository.save(user);
+        String accessToken = jwtProvider.getAccessToken(userCreateRequestDto.getNickName(), userCreateRequestDto.getEmail());
+        String refreshToken = jwtProvider.getRefreshToken();
+        return new UserCreateResponseDto(accessToken,refreshToken);
     }
 }
