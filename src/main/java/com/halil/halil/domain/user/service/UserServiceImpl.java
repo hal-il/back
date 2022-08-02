@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
     public UserCreateResponseDto createUser(UserCreateRequestDto userCreateRequestDto) {
         User user = User.builder().email(userCreateRequestDto.getEmail()).nickname(userCreateRequestDto.getNickName()).build();
         userRepository.save(user);
-        String accessToken = jwtProvider.getAccessToken(userCreateRequestDto.getNickName(), userCreateRequestDto.getEmail());
+        String accessToken = jwtProvider.getAccessToken(user.getNickname(), user.getEmail());
         String refreshToken = jwtProvider.getRefreshToken();
         return new UserCreateResponseDto(accessToken,refreshToken);
     }
