@@ -22,14 +22,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserResponseDto updateUserInfo(String email, UserUpdateRequestDto userUpdateRequestDto) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoExistUserException("존재하는 회원정보가 없습니다."));
-        try{
-            user.update(userUpdateRequestDto.getNickName());
-            userRepository.save(user);
-            UserResponseDto userResponseDto = new UserResponseDto(user);
-            return userResponseDto;
-        }catch (DataIntegrityViolationException e){
-            throw new ExistNicknameException("존재하는 닉네임입니다.");
-        }
+        user.update(userUpdateRequestDto.getNickName());
+        userRepository.save(user);
+        UserResponseDto userResponseDto = new UserResponseDto(user);
+        return userResponseDto;
     }
 
     @Override
@@ -45,8 +41,8 @@ public class UserServiceImpl implements UserService{
             String accessToken = jwtProvider.createAccessToken(userCreateRequestDto.getNickName(), userCreateRequestDto.getEmail());
             String refreshToken = jwtProvider.createRefreshToken(userCreateRequestDto.getNickName(), userCreateRequestDto.getEmail());
             return new UserCreateResponseDto(accessToken, refreshToken);
-        }catch (DataIntegrityViolationException e){
-            throw new ExistUserException("Already Exist UserNickName");
+        }catch (ExistUserException e){
+            throw new ExistUserException();
         }
     }
 }

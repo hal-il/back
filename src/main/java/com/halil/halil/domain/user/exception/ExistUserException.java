@@ -1,7 +1,9 @@
 package com.halil.halil.domain.user.exception;
 
-public class ExistUserException extends RuntimeException{
-    public ExistUserException(String message){
-        super(message);
+import org.springframework.dao.DataIntegrityViolationException;
+
+public class ExistUserException extends DataIntegrityViolationException {
+    public ExistUserException(){
+        super("Already Exist User!");
     }
 }

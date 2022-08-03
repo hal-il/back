@@ -9,6 +9,7 @@ import com.halil.halil.global.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
@@ -33,9 +34,5 @@ public class UserController {
     ResponseEntity<CommonResponse> createUser(@RequestBody @Valid UserCreateRequestDto userCreateRequestDto){
         UserCreateResponseDto userCreateResponseDto = userService.createUser(userCreateRequestDto);
         return new ResponseEntity<>(CommonResponse.createSuccess(userCreateResponseDto), HttpStatus.OK);
-    }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<CommonResponse> invalidDtoException(MethodArgumentNotValidException e){
-        return new ResponseEntity<>(CommonResponse.createError("take a form plz"),HttpStatus.BAD_REQUEST);
     }
 }

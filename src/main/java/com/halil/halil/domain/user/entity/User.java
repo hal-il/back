@@ -4,6 +4,7 @@ package com.halil.halil.domain.user.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
