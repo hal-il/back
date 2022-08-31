@@ -1,12 +1,17 @@
 package com.halil.halil.domain.category.entity;
 
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.awt.*;
 
+@Entity
+@Getter
+@Table(name = "CATEGORY")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +24,13 @@ public class Category {
     @Column(name = "COLOR", nullable = false)
     private Color color;
 
-    @Column(name = "SCOPE_TYPE", nullable = false)
-    private ScopeType scope_type;
+    @Column(name = "SCOPETYPE", nullable = false)
+    private String scopeType;
 
     @Builder
-    public Category( String name, Color color, ScopeType scope_type){
+    public Category(String name,Color color,String scopeType){
         this.name = name;
         this.color = color;
-        this.scope_type = scope_type;
+        this.scopeType = scopeType;
     }
 }
