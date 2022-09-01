@@ -40,13 +40,8 @@ public class JwtProvider {
     }
 
     public boolean isValidateToken(String token){
-        if(token == null) return false;
-        try {
-            Jwts.parser().setSigningKey(SECRET_KEY.getBytes()).parseClaimsJws(token).getBody();
-            return true;
-        }catch (Exception e){
-            return false;
-        }
+        Jwts.parser().setSigningKey(SECRET_KEY.getBytes()).parseClaimsJws(token).getBody();
+        return true;
     }
 
     public String getEmail(String accessToken){
