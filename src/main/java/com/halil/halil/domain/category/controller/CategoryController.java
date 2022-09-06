@@ -2,6 +2,8 @@ package com.halil.halil.domain.category.controller;
 
 import com.halil.halil.domain.category.dto.CategoryCreateRequestDto;
 import com.halil.halil.domain.category.dto.CategoryCreateResponseDto;
+import com.halil.halil.domain.category.dto.CategoryDeleteRequestDto;
+import com.halil.halil.domain.category.dto.CategoryDeleteResponseDto;
 import com.halil.halil.domain.category.service.CategoryService;
 import com.halil.halil.global.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +28,9 @@ public class CategoryController {
     ResponseEntity<CommonResponse> createCategory(@RequestBody @Valid CategoryCreateRequestDto categoryCreateRequestDto){
         CategoryCreateResponseDto categoryCreateResponseDto = categoryService.createCategory(categoryCreateRequestDto);
         return new ResponseEntity<>(CommonResponse.createSuccess(categoryCreateResponseDto), HttpStatus.OK);
+    }
+    @PostMapping("/delete")
+    ResponseEntity<CommonResponse> deleteCategory(@RequestBody @Valid CategoryDeleteRequestDto categoryDeleteRequestDto){
+        return new ResponseEntity<>(CommonResponse.createSuccess(categoryService.deleteCategory(categoryDeleteRequestDto)), HttpStatus.OK);
     }
 }
