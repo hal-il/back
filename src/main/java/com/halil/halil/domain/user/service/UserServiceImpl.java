@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findUserByEmail(email).orElseThrow(() -> {
             throw new NotExistUserException();
         });
-        return new UserLoginResponseDto(jwtProvider.getAccessToken(user.getEmail()), jwtProvider.getRefreshToken());
+        return new UserLoginResponseDto(jwtProvider.getAccessToken(user.getEmail()), jwtProvider.getRefreshToken(user.getEmail()));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService{
         User user = User.builder().email(userCreateRequestDto.getEmail()).nickname(userCreateRequestDto.getNickname()).build();
         userRepository.save(user);
         String accessToken = jwtProvider.getAccessToken( user.getEmail());
-        String refreshToken = jwtProvider.getRefreshToken();
+        String refreshToken = jwtProvider.getRefreshToken(user.getEmail());
         return new UserCreateResponseDto(accessToken,refreshToken);
     }
 }

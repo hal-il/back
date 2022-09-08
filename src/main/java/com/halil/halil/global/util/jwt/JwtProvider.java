@@ -1,14 +1,18 @@
 package com.halil.halil.global.util.jwt;
 
+import com.halil.halil.global.common.redis.RedisService;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.Date;
 
 @Component
 @Setter
+@RequiredArgsConstructor
 public class JwtProvider {
 
     @Value("${jwt.secret}")
@@ -18,6 +22,7 @@ public class JwtProvider {
 
     private Long refreshTokenExpiredTime = 1000L * 60 * 60 * 24 * 14;
 
+    private final RedisService redisService;
     public String getAccessToken(String email){
         Date now = new Date();
         return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE)
@@ -29,14 +34,16 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String getRefreshToken(){
+    public String getRefreshToken(String email){
         Date now = new Date();
-        return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+        String refreshToken =Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer("halil")
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + refreshTokenExpiredTime))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
                 .compact();
+        redisService.setValues(email,refreshToken, Duration.ofMillis(refreshTokenExpiredTime));
+        return refreshToken;
     }
 
     public boolean isValidateToken(String token){
