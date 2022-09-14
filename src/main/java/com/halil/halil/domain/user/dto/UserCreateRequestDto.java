@@ -5,23 +5,16 @@ import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 public class UserCreateRequestDto {
-    @NotBlank
+    @NotBlank(message = "이메일은 비어있을 수 없습니다.")
     @Email
-    String email;
-    @NotBlank
-    String nickName;
+    private String email;
+    @NotBlank(message = "닉네임은 비어있을 수 없습니다.")
+    private String nickname;
 
     public User toEntity(){
-        return User.builder()
-                .email(email)
-                .nickname(nickName)
-                .build();
+        return User.builder().email(this.email).nickname(this.nickname).build();
     }
 }

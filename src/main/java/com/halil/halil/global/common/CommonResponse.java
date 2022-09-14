@@ -47,5 +47,4 @@ public class CommonResponse<T> {
     public static CommonResponse createError(String message){
         return new CommonResponse(ERROR, null, message);
     }
-
 }

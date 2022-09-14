@@ -4,20 +4,19 @@ package com.halil.halil.domain.user.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
-@Table(name = "USERS")
+@Table(name="USERS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
-    private Long user_id;
+    private Long id;
 
     @Column(name = "NICKNAME", unique = true, nullable = false)
-    private String nickName;
+    private String nickname;
 
     @Column(name = "EMAIL", unique = true, nullable = false)
     private String email;
@@ -27,12 +26,12 @@ public class User {
 
     @Builder
     public User( String nickname, String email){
-        this.nickName = nickname;
+        this.nickname = nickname;
         this.email = email;
     }
 
-    public void update(String nickName){
-        this.nickName = nickName;
+    public void update(String nickname){
+        this.nickname = nickname;
     }
 
     public void updateRefreshToken(String refreshToken){
