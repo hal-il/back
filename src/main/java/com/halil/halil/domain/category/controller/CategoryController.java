@@ -1,19 +1,13 @@
 package com.halil.halil.domain.category.controller;
 
-import com.halil.halil.domain.category.dto.CategoryCreateRequestDto;
-import com.halil.halil.domain.category.dto.CategoryCreateResponseDto;
-import com.halil.halil.domain.category.dto.CategoryDeleteRequestDto;
-import com.halil.halil.domain.category.dto.CategoryDeleteResponseDto;
+import com.halil.halil.domain.category.dto.*;
 import com.halil.halil.domain.category.service.CategoryService;
 import com.halil.halil.global.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,6 +17,12 @@ import javax.validation.Valid;
 @ComponentScan
 public class CategoryController {
     private final CategoryService categoryService;
+
+    @PutMapping("/update")
+    ResponseEntity<CommonResponse> updateCategory(@RequestBody @Valid CategoryUpdateRequestDto categoryUpdateRequestDto){
+        CategoryUpdateResponseDto categoryUpdateResponseDto = categoryService.updateCategory(categoryUpdateRequestDto);
+        return ResponseEntity.ok(CommonResponse.createSuccess(categoryUpdateResponseDto));
+    }
 
     @PostMapping("/create")
     ResponseEntity<CommonResponse> createCategory(@RequestBody @Valid CategoryCreateRequestDto categoryCreateRequestDto){

@@ -27,6 +27,13 @@ public class Category {
     @Column(name = "SCOPETYPE", nullable = false)
     private String scopeType;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setScopeType(String scopeType){
+        this.scopeType = scopeType;
+    }
+
     @Builder
     public Category(String name,Color color,String scopeType){
         this.name = name;
