@@ -1,5 +1,6 @@
 package com.halil.halil.domain.category.entity;
 
+import com.halil.halil.domain.schedule.entity.Schedule;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,11 +8,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 @Entity
 @Getter
-@Table(name = "CATEGORY")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +28,9 @@ public class Category {
 
     @Column(name = "SCOPETYPE", nullable = false)
     private String scopeType;
+
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "category",orphanRemoval = true)
+    private List<Schedule> schedule = new ArrayList<Schedule>();
 
     public void setName(String name) {
         this.name = name;
