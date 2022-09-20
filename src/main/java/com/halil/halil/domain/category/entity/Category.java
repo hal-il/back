@@ -1,5 +1,6 @@
 package com.halil.halil.domain.category.entity;
 
+import antlr.collections.List;
 import com.halil.halil.domain.schedule.entity.Schedule;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -9,7 +10,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 @Entity
 @Getter
@@ -30,7 +30,7 @@ public class Category {
     private String scopeType;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "category",orphanRemoval = true)
-    private List<Schedule> schedule = new ArrayList<Schedule>();
+    private Set<Schedule> schedule = new HashSet<Schedule>();
 
     public void setName(String name) {
         this.name = name;

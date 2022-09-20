@@ -1,4 +1,4 @@
-package com.halil.halil.domain.category.dto;
+package com.halil.halil.domain.schedule.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
-public class CategoryDeleteResponseDto {
-    private Long category_id;
+public class ScheduleDeleteResponseDto {
+    private Long schedule_id;
 }

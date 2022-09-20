@@ -23,4 +23,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleRepository.save(schedule);
         return new ScheduleCreateResponseDto().builder().schedule_id(schedule.getSchedule_id()).category_id(category.getCategory_id()).build();
     }
+    @Override
+    public ScheduleDeleteResponseDto deleteSchedule(ScheduleDeleteRequestDto scheduleDeleteRequestDto){
+        scheduleRepository.deleteById(scheduleDeleteRequestDto.getSchedule_id());
+        return new ScheduleDeleteResponseDto().builder().schedule_id(scheduleDeleteRequestDto.getSchedule_id()).build();
+    }
 }

@@ -6,4 +6,5 @@ import com.halil.halil.domain.schedule.dto.*;
 
 public interface ScheduleService {
     ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto);
+    ScheduleDeleteResponseDto deleteSchedule(ScheduleDeleteRequestDto scheduleDeleteRequestDto);
 }

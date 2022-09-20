@@ -21,4 +21,8 @@ public class ScheduleController {
     ResponseEntity<CommonResponse> createSchedule(@RequestBody @Valid ScheduleCreateRequestDto scheduleCreateRequestDto){
         return new ResponseEntity<>(CommonResponse.createSuccess(scheduleService.createSchedule(scheduleCreateRequestDto)), HttpStatus.OK);
     }
+    @PostMapping("/delete")
+    ResponseEntity<CommonResponse> deleteSchedule(@RequestBody @Valid ScheduleDeleteRequestDto scheduleDeleteRequestDto){
+        return new ResponseEntity<>(CommonResponse.createSuccess(scheduleService.deleteSchedule(scheduleDeleteRequestDto)), HttpStatus.OK);
+    }
 }

@@ -8,16 +8,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.awt.*;
-import java.util.Date;
-import java.util.Random;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Getter
 public class ScheduleCreateRequestDto {
     @NotBlank

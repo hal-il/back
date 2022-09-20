@@ -11,6 +11,6 @@ import java.awt.*;
 @AllArgsConstructor
 @Getter
 public class CategoryCreateResponseDto{
-    Long category_id;
-    Color color;
+    private Long category_id;
+    private Color color;
 }

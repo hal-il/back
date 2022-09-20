@@ -13,5 +13,5 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class CategoryDeleteRequestDto {
     @NotNull
-    Long category_id;
+    private Long category_id;
 }

@@ -6,26 +6,27 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.awt.*;
 import java.util.Random;
 
-import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 public class CategoryCreateRequestDto {
     @NotBlank
-    String name;
+    private String name;
 
     @NotBlank
-    String scopeType;
+    private String scopeType;
 
     public Category toEntity(){
-        Random rand = new Random();
-        float r = rand.nextFloat();
-        float g = rand.nextFloat();
-        float b = rand.nextFloat();
+        long seed = System.currentTimeMillis();
+        Random random = new Random(seed);
+        int r = (int)(Math.random()*255);
+        int g = (int)(Math.random()*255);
+        int b = (int)(Math.random()*255);
         Color randColor = new Color(r,g,b);
         return Category.builder()
                 .name(name)

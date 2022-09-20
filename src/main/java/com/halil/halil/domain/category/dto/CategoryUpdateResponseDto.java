@@ -14,11 +14,11 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class CategoryUpdateResponseDto {
     @NotNull
-    Long category_id;
+    private Long category_id;
 
     @NotBlank
-    String name;
+    private String name;
 
     @NotBlank
-    String scopeType;
+    private String scopeType;
 }
