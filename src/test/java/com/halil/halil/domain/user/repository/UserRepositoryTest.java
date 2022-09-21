@@ -21,9 +21,9 @@ class UserRepositoryTest {
 
     @BeforeEach
     void init(){
-        userRepository.save(User.builder().nickName("nickName1").email("email1").build());
-        userRepository.save(User.builder().nickName("nickName2").email("email2").build());
-        userRepository.save(User.builder().nickName("nickName3").email("email3").build());
+        userRepository.save(User.builder().nickname("nickName1").email("email1").build());
+        userRepository.save(User.builder().nickname("nickName2").email("email2").build());
+        userRepository.save(User.builder().nickname("nickName3").email("email3").build());
         userRepository.save(User.builder().email("test1@gmail.com").nickname("test1").build());
         userRepository.save(User.builder().email("test2@gmail.com").nickname("test2").build());
     }
@@ -33,7 +33,7 @@ class UserRepositoryTest {
     void duplicatedEmail(){
         String duplicateEmail = "email1";
         assertThrowsExactly(DataIntegrityViolationException.class, () -> {
-            userRepository.save(User.builder().nickName("nickName4").email(duplicateEmail).build());
+            userRepository.save(User.builder().nickname("nickName4").email(duplicateEmail).build());
         });
     }
 
@@ -42,7 +42,7 @@ class UserRepositoryTest {
     void duplicatedNickName(){
         String duplicateNickName = "nickName1";
         assertThrowsExactly(DataIntegrityViolationException.class, () -> {
-            userRepository.save(User.builder().nickName(duplicateNickName).email("email4").build());
+            userRepository.save(User.builder().nickname(duplicateNickName).email("email4").build());
         });
     }
 
@@ -51,7 +51,7 @@ class UserRepositoryTest {
     void findUserByEmail(){
         String email = "email1";
         String targetNickName = "nickName1";
-        assertEquals(targetNickName, userRepository.findUserByEmail(email).get().getNickName());
+        assertEquals(targetNickName, userRepository.findUserByEmail(email).get().getNickname());
     }
 
     @Test
@@ -64,7 +64,7 @@ class UserRepositoryTest {
     @Test
     @DisplayName("사용자는 중복된 닉네임으로 수정 할 수 없다.")
     void updateDuplicatedNickname(){
-        User user = userRepository.findByEmail("test2@gmail.com").orElseThrow(() -> new NoSuchElementException());
+        User user = userRepository.findUserByEmail("test2@gmail.com").orElseThrow(() -> new NoSuchElementException());
         assertThrowsExactly(DataIntegrityViolationException.class, () -> {
             user.update("test1");
         });

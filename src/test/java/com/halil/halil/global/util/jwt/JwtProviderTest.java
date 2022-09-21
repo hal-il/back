@@ -1,6 +1,5 @@
 package com.halil.halil.global.util.jwt;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -21,18 +20,13 @@ class JwtProviderTest {
     }
 
     @Test
-    @DisplayName("사용자는 닉네임과 이메일을 가지고 jwt를 발급받을 수 있다")
+    @DisplayName("사용자는 이메일을 가지고 accessToken을 발급받을 수 있다")
     void getToken(){
         String email = "email";
-        String nickName = "nickName";
 
-        String jwt = jwtProvider.getAccessToken(nickName, email);
+        String accessToken = jwtProvider.getAccessToken(email);
 
-        Claims claims = jwtProvider.parseToken(jwt);
-
-        assertEquals(email, claims.get("email"));
-        assertEquals(nickName, claims.get("nickName"));
-        assertEquals("halil", claims.getIssuer());
+        assertEquals(email, jwtProvider.getEmail(accessToken));
     }
 
     @Test
@@ -40,12 +34,11 @@ class JwtProviderTest {
     void generateExpiredException(){
         jwtProvider.setAccessTokenExpiredTime(0L);
         String email = "email";
-        String nickName = "nickName";
 
-        String jwt = jwtProvider.getAccessToken(nickName, email);
+        String jwt = jwtProvider.getAccessToken(email);
 
         assertThrowsExactly(ExpiredJwtException.class, () -> {
-            jwtProvider.parseToken(jwt);
+            jwtProvider.isValidateToken(jwt);
         });
     }
 
@@ -53,11 +46,10 @@ class JwtProviderTest {
     @DisplayName("알맞지 않은 형식의 jwt일 경우 MalformedJwtException 발생")
     void generateException(){
         String email = "email";
-        String nickName = "nickName";
         String wrongJwt = "wrongHeader.wrongPayload.wrongSignature";
 
         assertThrowsExactly(MalformedJwtException.class, () -> {
-            jwtProvider.parseToken(wrongJwt);
+            jwtProvider.isValidateToken(wrongJwt);
         });
     }
 
@@ -65,14 +57,13 @@ class JwtProviderTest {
     @DisplayName("알맞지 않은 Signature로 서명시 SignatureException 발생")
     void wrongKeyJwt(){
         String email = "email";
-        String nickName = "nickName";
         String wrongKey = "wrongKey";
         jwtProvider.setSECRET_KEY(wrongKey);
-        String wrongJwt = jwtProvider.getAccessToken(nickName, email);
+        String wrongJwt = jwtProvider.getAccessToken(email);
 
         jwtProvider.setSECRET_KEY("rightKey");
         assertThrowsExactly(SignatureException.class, () -> {
-            jwtProvider.parseToken(wrongJwt);
+            jwtProvider.isValidateToken(wrongJwt);
         });
     }
 }
