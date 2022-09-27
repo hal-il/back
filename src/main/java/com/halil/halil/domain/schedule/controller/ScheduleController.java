@@ -25,4 +25,10 @@ public class ScheduleController {
     ResponseEntity<CommonResponse> deleteSchedule(@RequestBody @Valid ScheduleDeleteRequestDto scheduleDeleteRequestDto){
         return new ResponseEntity<>(CommonResponse.createSuccess(scheduleService.deleteSchedule(scheduleDeleteRequestDto)), HttpStatus.OK);
     }
+    @PutMapping("/update")
+    ResponseEntity<CommonResponse> updateSchdule(@RequestBody @Valid ScheduleUpdateRequestDto scheduleUpdateRequestDto){
+        ScheduleUpdateResponseDto schduleUpdateResponseDto = scheduleService.updateSchedule(scheduleUpdateRequestDto);
+        return new ResponseEntity<>(CommonResponse.createSuccess(schduleUpdateResponseDto),HttpStatus.OK);
+
+    }
 }

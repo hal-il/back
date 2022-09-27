@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityNotFoundException;
+
 @RestControllerAdvice
 public class UserControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -22,5 +24,9 @@ public class UserControllerAdvice {
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public  ResponseEntity<CommonResponse> EmptyDataDeleteException(EmptyResultDataAccessException e){
         return new ResponseEntity<>(CommonResponse.createError("Dont Delete Empty Entity"), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(EntityNotFoundException.class)
+    public  ResponseEntity<CommonResponse> EmptyEntityIdException(EntityNotFoundException e){
+        return new ResponseEntity<>(CommonResponse.createError("Dont insert Empty Entity id"), HttpStatus.BAD_REQUEST);
     }
 }

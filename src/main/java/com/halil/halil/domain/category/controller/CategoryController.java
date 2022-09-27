@@ -21,7 +21,7 @@ public class CategoryController {
     @PutMapping("/update")
     ResponseEntity<CommonResponse> updateCategory(@RequestBody @Valid CategoryUpdateRequestDto categoryUpdateRequestDto){
         CategoryUpdateResponseDto categoryUpdateResponseDto = categoryService.updateCategory(categoryUpdateRequestDto);
-        return ResponseEntity.ok(CommonResponse.createSuccess(categoryUpdateResponseDto));
+        return new ResponseEntity<>(CommonResponse.createSuccess(categoryUpdateResponseDto),HttpStatus.OK);
     }
 
     @PostMapping("/create")

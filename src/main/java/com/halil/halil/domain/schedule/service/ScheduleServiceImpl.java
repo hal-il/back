@@ -6,7 +6,11 @@ import com.halil.halil.domain.category.repository.CategoryRepository;
 import com.halil.halil.domain.schedule.dto.*;
 import com.halil.halil.domain.schedule.entity.Schedule;
 import com.halil.halil.domain.schedule.repository.ScheduleRepository;
+import com.halil.halil.domain.user.exception.ExistNicknameException;
+import com.halil.halil.global.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -27,5 +31,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleDeleteResponseDto deleteSchedule(ScheduleDeleteRequestDto scheduleDeleteRequestDto){
         scheduleRepository.deleteById(scheduleDeleteRequestDto.getSchedule_id());
         return new ScheduleDeleteResponseDto().builder().schedule_id(scheduleDeleteRequestDto.getSchedule_id()).build();
+    }
+    @Override
+    public ScheduleUpdateResponseDto updateSchedule(ScheduleUpdateRequestDto scheduleUpdateRequestDto){
+        Schedule schedule = scheduleRepository.getReferenceById(scheduleUpdateRequestDto.getSchedule_id());
+        Category category = categoryRepository.getReferenceById(scheduleUpdateRequestDto.getCategory_id());
+        if (schedule.getCategory().getCategory_id()!=category.getCategory_id()){
+            throw new RuntimeException("Check Dto Id data");
+        }
+        scheduleRepository.save(schedule);
+        return ScheduleUpdateResponseDto.builder().schedule_id(schedule.getSchedule_id()).category_id(category.getCategory_id()).build();
     }
 }
