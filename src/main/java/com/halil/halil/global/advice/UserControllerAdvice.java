@@ -1,5 +1,6 @@
 package com.halil.halil.global.advice;
 
+import com.halil.halil.domain.schedule.Exception.InvalidIdException;
 import com.halil.halil.global.response.CommonResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -29,4 +30,9 @@ public class UserControllerAdvice {
     public  ResponseEntity<CommonResponse> EmptyEntityIdException(EntityNotFoundException e){
         return new ResponseEntity<>(CommonResponse.createError("Dont insert Empty Entity id"), HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(InvalidIdException.class)
+    public ResponseEntity<CommonResponse> InvalidException(InvalidIdException e){
+        return new ResponseEntity<>(CommonResponse.createError("Dont insert Invalid Id"), HttpStatus.BAD_REQUEST);
+    }
+
 }
