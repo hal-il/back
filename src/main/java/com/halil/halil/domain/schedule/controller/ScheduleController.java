@@ -17,6 +17,10 @@ import javax.validation.Valid;
 @ComponentScan
 public class ScheduleController {
     private final ScheduleService scheduleService;
+    @PostMapping("/read")
+    ResponseEntity<CommonResponse> readSchedule(@RequestBody @Valid ScheduleReadRequestDto scheduleReadRequestDto){
+        return new ResponseEntity<>(CommonResponse.createSuccess(scheduleService.readSchedule(scheduleReadRequestDto)), HttpStatus.OK);
+    }
     @PostMapping("/create")
     ResponseEntity<CommonResponse> createSchedule(@RequestBody @Valid ScheduleCreateRequestDto scheduleCreateRequestDto){
         return new ResponseEntity<>(CommonResponse.createSuccess(scheduleService.createSchedule(scheduleCreateRequestDto)), HttpStatus.OK);

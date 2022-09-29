@@ -45,4 +45,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleRepository.save(schedule);
         return ScheduleUpdateResponseDto.builder().schedule_id(schedule.getSchedule_id()).category_id(category.getCategory_id()).build();
     }
+    @Override
+    public ScheduleReadResponseDto readSchedule(ScheduleReadRequestDto scheduleReadRequestDto){
+        Schedule schedule = scheduleRepository.getReferenceById(scheduleReadRequestDto.getSchedule_id());
+        return new ScheduleReadResponseDto().builder().schedule_id(schedule.getSchedule_id()).date(schedule.getSchedule_date()).status(schedule.getStatus()).contents(schedule.getContents()).build();
+    }
 }

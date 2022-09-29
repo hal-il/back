@@ -8,4 +8,5 @@ public interface ScheduleService {
     ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto);
     ScheduleDeleteResponseDto deleteSchedule(ScheduleDeleteRequestDto scheduleDeleteRequestDto);
     ScheduleUpdateResponseDto updateSchedule(ScheduleUpdateRequestDto scheduleUpdateRequestDto);
+    ScheduleReadResponseDto readSchedule(ScheduleReadRequestDto scheduleReadRequestDto);
 }
