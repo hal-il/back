@@ -1,9 +1,12 @@
 package com.halil.halil.domain.user.entity;
 
 
+import com.halil.halil.domain.friend.entity.Friend;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +25,9 @@ public class User {
 
     @Column(name = "REFRESH_TOKEN")
     private String refreshToken;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<Friend> friends = new ArrayList<>();
 
     @Builder
     public User( String nickname, String email){
